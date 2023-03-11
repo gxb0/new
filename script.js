@@ -1,3 +1,5 @@
+( () => {
+ 
 const btn = document.querySelector('[data-form-btn]');
 
 const createTask = (evento) => {
@@ -8,19 +10,37 @@ const createTask = (evento) => {
     const list = document.querySelector('[data-list]');
     task.classList.add('card');
     input.value = '';
-    const content = ` <div>
-    <i class="far fa-check-square icon"></i>
-    <span class="task">${value}</span>
-  </div>
-  <i class="fas fa-trash-alt trashIcon icon"></i>`;
-  task.innerHTML = content;
 
+    const taskContent = document.createElement('div');
+    taskContent.appendChild(checkComplete());
+    const titleTask = document.createElement('span');
+    titleTask.classList.add('task');
+    titleTask.innerText = value;
+    taskContent.appendChild(titleTask);
+
+    const content = ` 
+    <i class="fas fa-trash-alt trashIcon icon"></i>`;
+  //task.innerHTML = content;
+  task.appendChild(taskContent);
   list.appendChild(task);
-
-    console.log(content);
 };
+  //Arrow function o funciones anonimas
+  btn.addEventListener('click', createTask); 
 
-console.log(btn);
+const checkComplete = () => {
+  const i = document.createElement('i');
+  i.classList.add('far', 'fa-check-square', 'icon');
+  i.addEventListener('click', completeTask);
+  return i;
+}
 
-//Arrow function o funciones anonimas
-btn.addEventListener('click', createTask); 
+//Inmediately invoked function expression IIFE
+
+const completeTask = (event) => {
+  
+  const element = event.target
+  element.classList.toggle('fas');
+  element.classList.toggle('completeIcon');
+  element.classList.toggle('far');
+};
+})();
